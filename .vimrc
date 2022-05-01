@@ -12,9 +12,9 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTr
 " Close the tab if NERDTree is the only window remaining in it.
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 " Nerdtree Remaps
-nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap [N :NERDTreeFocus<CR>
 "nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap [n :NERDTreeToggle<CR>
 "nnoremap <C-f> :NERDTreeFind<CR>
 "
 " VIM_AIRLINE
@@ -58,16 +58,19 @@ let g:airline_right_alt_sep = ''
 "set statusline+=%#warningmsg#
 "set statusline+=%{SyntasticStatuslineFlag()}
 "set statusline+=%*
-nnoremap <leader>t :SyntasticToggleMode<CR>
-nnoremap <c-t> :SyntasticCheck<CR>
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_python_python_exec = 'python3'
-let g:syntastic_python_checker = ['python']
-let g:syntastic_quiet_messages = { "type": "style" }
+"nnoremap <leader>t :SyntasticToggleMode<CR>
+"nnoremap <c-t> :SyntasticCheck<CR>
+"
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+"let g:syntastic_python_python_exec = 'python3'
+"let g:syntastic_python_checker = ['python']
+"let g:syntastic_quiet_messages = { "type": "style" }
+"
+" VIM-FUGITIVE
+noremap [g :G<cr>
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -81,7 +84,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'preservim/nerdtree'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'vim-syntastic/syntastic'
+"Plugin 'vim-syntastic/syntastic'
 Plugin 'tpope/vim-fugitive'
 
 " All of your Plugins must be added before the following line
@@ -107,9 +110,12 @@ function! SetTab(n)
     set expandtab
 endfunction
 
+" Puts all swap files in one location
+set directory=$HOME/.vim/swp//
+
 " Normal remaps
-noremap <leader>r :so ~/.vimrc<cr>
-" ^ Zoom out and zoom in to fix powerline after running commands ^
+map Y y$
+noremap <silent> <leader>r :mapc<cr> :so ~/.vimrc<cr> :noh<cr>
 noremap <leader>/ :noh<cr>
 noremap <c-e> :Explore<cr>
 inoremap jk <esc>l
@@ -118,6 +124,7 @@ noremap <leader>t :term ++close<cr>
 noremap m zz
 noremap zs :wa<cr>
 noremap <leader>; J
+noremap zq :bd<CR>
 noremap zz :w<cr>
 noremap J <c-e>
 noremap K <c-y>
@@ -129,10 +136,17 @@ noremap H _
 noremap L $
 noremap gh H
 noremap gl L
+noremap <c-y> <c-d>
+"
 " Buffer Remaps
+"nnoremap [ :bp<CR>
+"nnoremap ] :bn<CR>
+nnoremap <s-tab> :bp<CR>
+nnoremap <tab> :bn<CR>
 nnoremap <C-Up> :bp<CR>
 nnoremap <C-Down> :bn<CR>
 nnoremap <leader>w  :bd<CR>
+"
 " Multi-Window Remaps
 noremap <c-h> <c-w>h
 noremap <c-j> <c-w>j
@@ -146,12 +160,13 @@ noremap mf :split<cr><c-w>w
 noremap mg :vsplit<cr><c-w>w
 
 " Normal Vim Settings
+set clipboard=unnamed
 set mouse=a
 set termkey=<c-t>
 set ruler
 set encoding=utf-8
-set hlsearch
-set incsearch
+set nohlsearch
+set noincsearch
 set number
 syntax on
 set tabstop=2
